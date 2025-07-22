@@ -12,6 +12,7 @@ export const NavbarStatic = () => {
             <Nav.Link as={Link} to="/">Home</Nav.Link>
             <Nav.Link as={Link} to="/register">Register</Nav.Link>
             <Nav.Link as={Link} to="/login">Login</Nav.Link>
+            <Nav.Link as={Link} to="/update">Update</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
