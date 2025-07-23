@@ -9,16 +9,18 @@ import { Login } from './AuthPages/Login'
 import { Route,Routes } from 'react-router-dom'
 import { Home } from './Home'
 import { Update } from './user/Update'
+import { DMSLandingPage } from './DMSLandingPage'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
-      <NavbarStatic/>
+      {/* <DMSLandingPage/> */}
       <Routes>
 
-        <Route path="/" element={<Home/>} />
+        <Route path="/" element={<DMSLandingPage/>} />
+        <Route path="/home" element={<Home/>} />
         <Route path="/register" element={<Register/>} />
         <Route path="/login" element={<Login/>} />
         <Route path="/update" element={<Update/>} />

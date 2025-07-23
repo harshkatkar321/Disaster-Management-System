@@ -1,8 +1,10 @@
 import React from 'react'
+import { NavbarStatic } from '../components/NavbarStatic'
 
 export const Login = () => {
     return (
         <>
+        <NavbarStatic/>
             <div className="container d-flex justify-content-center align-items-center vh-100">
       <div className="card p-4 shadow" style={{ width: '100%', maxWidth: '500px' }}>
         <h3 className="text-center mb-4">Login</h3>

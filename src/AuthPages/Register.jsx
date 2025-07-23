@@ -1,7 +1,10 @@
 import React from 'react';
+import { NavbarStatic } from '../components/NavbarStatic';
 
 const Register = () => {
   return (
+    <>
+    <NavbarStatic/>
     <div className="container d-flex justify-content-center align-items-center vh-100">
       <div className="card p-4 shadow" style={{ width: '100%', maxWidth: '500px' }}>
         <h3 className="text-center mb-4">Register</h3>
@@ -40,6 +43,7 @@ const Register = () => {
         </form>
       </div>
     </div>
+    </>
   );
 };
 
