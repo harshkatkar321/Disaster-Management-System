@@ -1,5 +1,6 @@
 import React from 'react';
-import { NavbarStatic } from '../components/NavbarStatic';
+import { NavbarStatic } from '../assets/NavigationBar';
+import { Footer } from '../assets/Footer';
 
 const Register = () => {
   return (
@@ -43,6 +44,7 @@ const Register = () => {
         </form>
       </div>
     </div>
+    <Footer/>
     </>
   );
 };

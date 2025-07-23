@@ -1,5 +1,6 @@
 import React from 'react'
-import { NavbarStatic } from '../components/NavbarStatic'
+import { NavbarStatic } from '../assets/NavigationBar'
+import { Footer } from '../assets/Footer'
 
 export const Login = () => {
     return (
@@ -25,6 +26,7 @@ export const Login = () => {
         </form>
       </div>
     </div>
+    <Footer/>
         </>
     )
 }

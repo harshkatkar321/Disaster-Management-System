@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import { NavbarStatic } from '../components/NavbarStatic';
+import { NavbarStatic } from '../../assets/NavigationBar';
+import { Footer } from '../../assets/Footer';
 
 export const Update = () => {
 
@@ -97,6 +98,7 @@ export const Update = () => {
         </form>
       </div>
     </div>
+    <Footer/>
         </>
     )
 }

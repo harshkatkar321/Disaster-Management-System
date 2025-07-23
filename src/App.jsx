@@ -4,12 +4,12 @@ import viteLogo from '/vite.svg'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
 import Register from './AuthPages/Register'
-import { NavbarStatic } from './components/NavbarStatic'
+import { NavbarStatic } from './assets/NavigationBar'
 import { Login } from './AuthPages/Login'
 import { Route,Routes } from 'react-router-dom'
-import { Home } from './Home'
-import { Update } from './user/Update'
-import { DMSLandingPage } from './DMSLandingPage'
+import { Home } from './pages/user/UserHome'
+import { Update } from './pages/user/Update'
+import { DMSLandingPage } from './pages/common/DMSLandingPage'
 
 function App() {
   const [count, setCount] = useState(0)
