@@ -48,7 +48,7 @@ export const DMSLandingPage = () => {
           <div className="row">
             <div className="col-md-4">
               <h5>Stay Calm</h5>
-              <p>Don’t panic—follow verified alerts and stay updated.</p>
+              <p>Dont panic—follow verified alerts and stay updated.</p>
             </div>
             <div className="col-md-4">
               <h5>Report Incidents</h5>
