@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { NavigationBar } from '../assets/NavigationBar'
-import { Footer } from '../assets/Footer'
+import { Navbar, Container,Nav } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
+import { Footer } from '../../assets/Footer'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
@@ -32,7 +33,16 @@ export const Login = () => {
 
     return (
         <>
-        <NavigationBar/>
+         <Navbar bg="info" data-bs-theme="light">
+        <Container>
+          <Navbar.Brand as={Link} to="/">DMS</Navbar.Brand>
+          <Nav className="me-auto">
+            <Nav.Link as={Link} to="/register">Register</Nav.Link>
+            <Nav.Link as={Link} to="/login">Login</Nav.Link>
+            <Nav.Link as={Link} to="/about">About</Nav.Link>
+          </Nav>
+        </Container>
+      </Navbar>
             <div className="container d-flex justify-content-center align-items-center vh-100">
       <div className="card p-4 shadow" style={{ width: '100%', maxWidth: '500px' }}>
         <h3 className="text-center mb-4">Login</h3>

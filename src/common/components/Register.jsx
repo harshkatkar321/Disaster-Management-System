@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-
-import { Footer } from '../assets/Footer';
+import { Navbar, Container,Nav } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
+import { Footer } from '../../assets/Footer';
 import axios from 'axios';
 // import { NavigationBar } from '../assets/NavigationBar';
 import { useNavigate } from 'react-router-dom';
@@ -57,7 +58,16 @@ const Register = () => {
 
   return (
     <>
-      
+      <Navbar bg="info" data-bs-theme="light">
+              <Container>
+                <Navbar.Brand as={Link} to="/">DMS</Navbar.Brand>
+                <Nav className="me-auto">
+                  <Nav.Link as={Link} to="/register">Register</Nav.Link>
+                  <Nav.Link as={Link} to="/login">Login</Nav.Link>
+                  <Nav.Link as={Link} to="/about">About</Nav.Link>
+                </Nav>
+              </Container>
+            </Navbar>
       <div className="container d-flex justify-content-center align-items-center vh-100">
         <div
           className="card p-4 shadow"

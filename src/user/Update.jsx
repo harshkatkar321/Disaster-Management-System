@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import { NavigationBar } from '../../assets/NavigationBar';
-import { Footer } from '../../assets/Footer';
+import { NavigationBar } from '../assets/NavigationBar';
+import { Footer } from '../assets/Footer';
 
 export const Update = () => {
 
@@ -59,7 +59,7 @@ export const Update = () => {
 
     return (
         <>
-        <NavigationBar/>
+        {/* <NavigationBar/> */}
             <div className="container d-flex justify-content-center align-items-center vh-100">
       <div className="card p-4 shadow" style={{ width: '100%', maxWidth: '500px' }}>
         <h3 className="text-center mb-4">Update User Details</h3>

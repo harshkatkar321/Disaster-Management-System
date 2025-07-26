@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
-import Register from './AuthPages/Register'
+import Register from './common/components/Register'
 import { Route,Routes } from 'react-router-dom'
-import { Home } from './pages/user/UserHome'
-import { Update } from './pages/user/Update'
-import { DMSLandingPage } from './pages/common/DMSLandingPage'
-import { About } from './pages/common/About'
-import { Login } from './AuthPages/Login'
+import { Home } from './user/UserHome'
+import { Update } from './user/Update'
+import { DMSLandingPage } from './DMSLandingPage'
+import { About } from './common/About'
+import { Login } from './common/components/Login'
 
 function App() {
   const [count, setCount] = useState(0)
