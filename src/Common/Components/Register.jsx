@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { registerRequest } from '../services/LoginService';
 import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
@@ -24,35 +24,20 @@ const Register = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleRegister = async (e) => {
-    e.preventDefault();
+  const handleRegister = async e => {
+    e.preventDefault()
 
-    const submitData = new FormData();
-    Object.keys(formData).forEach((key) => {
-      submitData.append(key, formData[key]);
-    });
-
-    if (imageFile) {
-      submitData.append('profileImage', imageFile);
-    }
+    const dto = formData;
 
     try {
-      const response = await axios.post(
-        'http://localhost:8080/api/v1/register',
-        submitData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        }
-      );
-      alert('Registration Successful');
-      navigate('/');
-    } catch (error) {
-      console.error(error);
-      alert('Registration failed. Try Again');
+      await registerRequest(dto, imageFile)
+      alert('Registration Successful')
+      navigate('/')
+    } catch (err) {
+      console.error('Registration failed:', err)
+      alert('Registration failed. Try Again')
     }
-  };
+  }
 
   return (
     <div className="container-fluid d-flex justify-content-center align-items-center min-vh-100 p-3 bg-light">

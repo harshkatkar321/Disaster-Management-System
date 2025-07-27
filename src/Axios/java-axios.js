@@ -5,13 +5,15 @@ const javaAxios = axios.create({
 
 });
 
+
+
 javaAxios.interceptors.request.use((config) => {
-  config.headers = {
-    'Content-Type': 'application/json',
-  };
+  config.headers['Content-Type'] = 'application/json';
   const token = localStorage.getItem('token');
+  console.log(token);
   if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+    console.log(token);
+    config.headers['Authorization'] = `Bearer ${token}`;
   }
   return config;
 });
