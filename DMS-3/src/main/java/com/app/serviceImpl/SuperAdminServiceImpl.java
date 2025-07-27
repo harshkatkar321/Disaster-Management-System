@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.app.dto.UpdatUserDto;
+import com.app.entity.SuperAdmin;
 import com.app.entity.User;
+import com.app.repository.SuperAdminRepository;
 import com.app.repository.UserRepository;
 import com.app.service.SuperAdminService;
 
@@ -23,6 +25,9 @@ public class SuperAdminServiceImpl implements SuperAdminService {
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private SuperAdminRepository superAdminRepository;
 	
 	@Override
 	public User updateUser(String id, UpdatUserDto userUpdateDto, MultipartFile imageFile) {
@@ -50,6 +55,12 @@ public class SuperAdminServiceImpl implements SuperAdminService {
 		    }
 		
 		return userRepository.save(existingUser);
+	}
+
+	@Override
+	public SuperAdmin getSuperAdmin(String username) {
+		// TODO Auto-generated method stub
+		return superAdminRepository.findByUsername(username).get();
 	}
 
 }

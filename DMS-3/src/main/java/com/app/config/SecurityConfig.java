@@ -7,6 +7,7 @@ import java.net.Authenticator;
 import java.security.interfaces.RSAPrivateCrtKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.Base64;
+import java.util.List;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
@@ -15,6 +16,7 @@ import org.n52.jackson.datatype.jts.JtsModule;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -26,6 +28,9 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
@@ -72,43 +77,11 @@ public class SecurityConfig {
 		return new NimbusJwtEncoder(new ImmutableSecret<>(hmacKey));
 	}
 	
-//	@Bean
-//	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-//		
-//		return http
-//				.csrf(csrf -> csrf.disable())
-//				.authorizeHttpRequests(
-//								auth -> auth.requestMatchers("/api/v1/login", "/api/v1/register").permitAll()
-//								
-//								// USER access
-//		                        .requestMatchers("/users/**").hasRole("USER")
-//		                        .requestMatchers(HttpMethod.POST, "/api/disasters/**").hasRole("USER")
-//		                        
-//		                        // ADMIN + SUPER_ADMIN access to /disasters/**
-//		                        .requestMatchers("/api/disasters/**").hasAnyRole("ADMIN", "SUPER_ADMIN")
-//		                        
-//		                     // ADMIN + SUPER_ADMIN can access PUT methods under /admin/**
-//		                        .requestMatchers(HttpMethod.PUT, "/api/admin/**").hasAnyRole("ADMIN", "SUPER_ADMIN")
-//		                        
-//		                     // Only SUPER_ADMIN can access all other /admin/** requests
-//		                        .requestMatchers("/api/admin/**").hasRole("SUPER_ADMIN")
-//		                        
-//		                     // SUPER_ADMIN-only for /super-admin/**
-//		                        .requestMatchers("/api/super-admin/**").hasRole("SUPER_ADMIN")
-//								
-//								.anyRequest().authenticated()
-//						).oauth2ResourceServer(
-//								rs -> rs.jwt(Customizer.withDefaults())
-//						).sessionManagement(
-//								session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//						)
-//				.build();
-//	}
-	
 	
 	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+	public SecurityFilterChain securityFilterChain(HttpSecurity http,  CorsConfigurationSource corsConfig) throws Exception {
 	    return http
+	      .cors(cors -> cors.configurationSource(corsConfig))
 	      .csrf(csrf -> csrf.disable())
 	      .authorizeHttpRequests(auth -> auth
 	          .requestMatchers("/api/v1/login", "/api/v1/register").permitAll()
@@ -133,5 +106,19 @@ public class SecurityConfig {
 	      )
 	      .build();
 	}
+	
+	
+	  @Bean
+	  @Primary
+	    public CorsConfigurationSource corsConfigurationSource() {
+	        CorsConfiguration config = new CorsConfiguration();
+	        config.setAllowedOrigins(List.of("http://localhost:5173"));
+	        config.setAllowedMethods(List.of("GET","POST","PUT","OPTIONS","DELETE"));
+	        config.setAllowedHeaders(List.of("*"));
+	        config.setAllowCredentials(true);
+	        UrlBasedCorsConfigurationSource src = new UrlBasedCorsConfigurationSource();
+	        src.registerCorsConfiguration("/**", config);
+	        return src;
+	    }
 
 }

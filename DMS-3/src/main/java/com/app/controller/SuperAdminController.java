@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.app.dto.OwnershipTransferDto;
 import com.app.dto.UpdatUserDto;
+import com.app.entity.SuperAdmin;
 import com.app.entity.User;
 import com.app.enums.Role;
 import com.app.repository.UserRepository;
@@ -24,6 +27,7 @@ import com.app.service.UserService;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
+
 
 @RestController
 @RequestMapping("/api")
@@ -80,6 +84,17 @@ public class SuperAdminController {
 		}
 		
 //		return superAdminService.updateUser(id, userUpdateDto,imageFile);
+	}
+	
+	@GetMapping("/super-admin/{username}")
+	public ResponseEntity<?> getSuperAdmin(@PathVariable String username){
+		try {
+			SuperAdmin superAdmin = superAdminService.getSuperAdmin(username);
+			return new ResponseEntity<>(superAdmin, HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO: handle exception
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 	}
 
 }
