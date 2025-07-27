@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-// import { Navbar } from '../../Navigation/Components/Navbar';
-// import { Footer } from '../../Navigation/Components/Footer'
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -13,8 +11,8 @@ const Register = () => {
     password: '',
     city: '',
   });
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
   const [imageFile, setImageFile] = useState(null);
 
   const handleFileChange = (e) => {
@@ -30,15 +28,17 @@ const Register = () => {
     e.preventDefault();
 
     const submitData = new FormData();
-
-    for (let key in FormData) {
+    Object.keys(formData).forEach((key) => {
       submitData.append(key, formData[key]);
-    }
+    });
+
     if (imageFile) {
       submitData.append('profileImage', imageFile);
     }
+
     try {
-      const response = await axios.post('http://localhost:8081/api/v1/register',
+      const response = await axios.post(
+        'http://localhost:8080/api/v1/register',
         submitData,
         {
           headers: {
@@ -46,7 +46,7 @@ const Register = () => {
           },
         }
       );
-      alert('Registration Successfull');
+      alert('Registration Successful');
       navigate('/');
     } catch (error) {
       console.error(error);
@@ -55,13 +55,9 @@ const Register = () => {
   };
 
   return (
-    <>
-      {/* <Navbar/> */}
-      <div className="container d-flex justify-content-center align-items-center vh-100">
-        <div
-          className="card p-4 shadow"
-          style={{ width: '100%', maxWidth: '500px' }}
-        >
+    <div className="container-fluid d-flex justify-content-center align-items-center min-vh-100 p-3 bg-light">
+      <div className="card shadow w-100" style={{ maxWidth: '500px' }}>
+        <div className="card-body">
           <h3 className="text-center mb-4">Register</h3>
           <form onSubmit={handleRegister}>
             <div className="mb-3">
@@ -130,7 +126,7 @@ const Register = () => {
                 type="text"
                 className="form-control"
                 name="phoneNumber"
-                value={FormData.phoneNumber}
+                value={formData.phoneNumber}
                 onChange={handleChange}
                 placeholder="Contact no."
                 required
@@ -153,8 +149,7 @@ const Register = () => {
           </form>
         </div>
       </div>
-      {/* <Footer/> */}
-    </>
+    </div>
   );
 };
 

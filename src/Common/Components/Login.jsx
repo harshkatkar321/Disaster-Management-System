@@ -24,23 +24,23 @@ export const Login = () => {
       console.log('Response object:', response);
       console.log('Token only:', response.token);
 
+
+      // After successful login:
+      localStorage.setItem('token', response.token);
+
       const decoded = jwtDecode(response.token);
       const roles = decoded.roles;
-
       role = roles[0];
-
       console.log(role);
 
-      // Define mapping
       const redirectMap = {
         ADMIN: '/admin/home',
         USER: '/user/home',
         SUPER_ADMIN: '/super-admin/home'
       };
       const path = redirectMap[role] ?? '/';
-      
-      navigate(path, { replace: true });
 
+      navigate(path, { replace: true });
 
     } catch (error) {
       console.error('Login error:', error);
@@ -48,31 +48,37 @@ export const Login = () => {
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center min-vh-100">
-      <div className="card border-warning text-center col-12 col-md-6 col-lg-4">
-        <div className="card-header border-warning bg-warning">
-          <h3>Login Page</h3>
-        </div>
+    <div className="container-fluid d-flex justify-content-center align-items-center min-vh-100 p-3 bg-light">
+      <div className="card shadow w-100" style={{ maxWidth: '500px' }}>
         <div className="card-body">
+          <h3 className="text-center mb-4">Login</h3>
           <form onSubmit={handleSubmit}>
-            <input
-              type="text"
-              name="username"
-              className="form-control border-warning"
-              placeholder="Enter Username"
-              value={dto.username}
-              onChange={handleChange}
-            />
-            <input
-              type="password"
-              name="password"
-              className="form-control border-warning mt-2"
-              placeholder="Enter Password"
-              value={dto.password}
-              onChange={handleChange}
-            />
-            <div className="mt-3">
-              <button type="submit" className="btn btn-lg btn-primary ms-2">
+            <div className="mb-3">
+              <label>Username</label>
+              <input
+                type="text"
+                name="username"
+                className="form-control"
+                placeholder="Enter Username"
+                value={dto.username}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="mb-3">
+              <label>Password</label>
+              <input
+                type="password"
+                name="password"
+                className="form-control"
+                placeholder="Enter Password"
+                value={dto.password}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="d-grid">
+              <button type="submit" className="btn btn-success">
                 Login
               </button>
             </div>
