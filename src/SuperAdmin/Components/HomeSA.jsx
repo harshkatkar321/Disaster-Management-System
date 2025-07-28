@@ -22,7 +22,8 @@ export const HomeSA = () => {
        
         try {
             const data = await profile(superAdmin);
-            console.log(data);  
+            console.log(data); 
+            
         } catch (err) {
             console.error('Error fetching profile:', err);
         } 

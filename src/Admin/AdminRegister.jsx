@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { registerRequest } from '../services/LoginService';
-import { useNavigate } from 'react-router-dom';
-import { Navbar } from '../../Navigation/Components/Navbar';
-import { Footer } from '../../Navigation/Components/Footer';
 
-const Register = () => {
+import { useNavigate } from 'react-router-dom';
+import { AdminRegisterRequest } from './services/AdminRegisterService';
+// import { Navbar } from '../../Navigation/Components/Navbar';
+// import { Footer } from '../../Navigation/Components/Footer';
+
+const AdminRegister = () => {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -32,12 +33,13 @@ const Register = () => {
     const dto = formData;
 
     try {
-      await registerRequest(dto, imageFile)
+      await AdminRegisterRequest(dto, imageFile)
       alert('Registration Successful')
-      navigate('/')
+      navigate('/super-admin/home')
     } catch (err) {
       console.error('Registration failed:', err)
       alert('Registration failed. Try Again')
+      navigate("/super-admin/admin/register")
     }
   }
 
@@ -202,7 +204,7 @@ const Register = () => {
             <div className="text-center mt-3">
               <small className="text-muted">
                 Already a member?{' '}
-                <a href="/login" className="text-decoration-none" style={{ color: '#00b894' }}>
+                <a href="/super-admin/home" className="text-decoration-none" style={{ color: '#00b894' }}>
                   Login here
                 </a>
               </small>
@@ -212,7 +214,7 @@ const Register = () => {
       </div>
 
       {/* Footer */}
-      <Footer/>
+      {/* <Footer/> */}
     </div>
     </>
   )
@@ -220,4 +222,4 @@ const Register = () => {
 
 };
 
-export default Register;
+export default AdminRegister;

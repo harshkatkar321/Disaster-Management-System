@@ -1,14 +1,19 @@
 import axios from 'axios';
 
 const javaAxios = axios.create({
-  baseURL: 'http://localhost:8080/api',
+  baseURL: 'http://localhost:8081/api',
 
 });
 
 
 
 javaAxios.interceptors.request.use((config) => {
-  config.headers['Content-Type'] = 'application/json';
+  const isFormData = config.data instanceof FormData;
+
+  // Only set Content-Type if not FormData
+  if (!isFormData) {
+    config.headers['Content-Type'] = 'application/json';
+  }
   const token = localStorage.getItem('token');
   console.log(token);
   if (token) {
