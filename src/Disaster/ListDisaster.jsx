@@ -11,6 +11,15 @@ export const ListDisaster = () => {
     const [disasters, setDisasters] = useState([]);
 
     useEffect(() => {
+  if (mapRef.current) {
+    setTimeout(() => {
+      mapRef.current.invalidateSize();
+    }, 200); // 200ms delay ensures full render before recalculation
+  }
+}, [disasters]); // or any trigger that causes map render
+
+
+    useEffect(() => {
   const map = mapRef.current;
   if (map) {
     map.dragging.disable();
@@ -40,7 +49,7 @@ export const ListDisaster = () => {
     },[]);
 
     const convertToImageSrc = (imageData,imageType) => {
-        return `data:${imageType}:base64,${imageData}`;
+        return `data:${imageType};base64,${imageData}`;
     };
 
     const defaultIcon = new L.Icon({
@@ -70,25 +79,23 @@ export const ListDisaster = () => {
 
             {disaster.mapLocation?.coordinates && (
                 <div className="map-box">
-                     <MapContainer
-                  center={[18.51283394, 73.81054636]}
-                  zoom={13}
-                  scrollWheelZoom={false}
-                  dragging={false}
-                  doubleClickZoom={false}
-                  zoomControl={false}
-                  touchZoom={false}
-                  style={{ height: "100%", width: "100%" }}             
-                    >
-                  <TileLayer
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    attribution='&copy; OpenStreetMap contributors'
-                  />
-                  <Marker position={[18.51283394, 73.81054636]}>
-                    <Popup>Disaster Location</Popup>
-                  </Marker>
-                </MapContainer>
-                </div>
+  <MapContainer
+    center={[18.51283394, 73.81054636]}
+    zoom={13}
+    style={{ height: '100%', width: '100%' }}
+    whenCreated={(mapInstance) => {
+      mapRef.current = mapInstance;
+    }}
+  >
+    <TileLayer
+      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      attribution='&copy; OpenStreetMap contributors'
+    />
+    <Marker position={[18.51283394, 73.81054636]}>
+      <Popup>Disaster Location</Popup>
+    </Marker>
+  </MapContainer>
+</div>
 
                
             )}

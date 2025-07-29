@@ -11,7 +11,7 @@ if(tokeFromStorage){
     const decoded = jwtDecode(tokeFromStorage);
     initialUser = {
       token : tokeFromStorage,
-      role : decoded.roles[0],
+      role : decoded.roles?.[0] || null,
     }
   }
   catch(err){
@@ -30,27 +30,36 @@ const authSlice = createSlice({
         const token = action.payload;
         
         if(typeof token === 'string' && token.trim()!== ''){
-            state.token = action.payload;
+            // state.token = action.payload;
             localStorage.setItem('token', token);
+
         
      
 
       try {
         const decoded = jwtDecode(token);
-        state.role = decoded.roles?.[0] || null; // assuming roles is array
-      } catch (err) {
-        state.token = null;
-        state.role = null;
+      //   state.role = decoded.roles?.[0] || null; // assuming roles is array
+      // } catch (err) {
+      //   state.token = null;
+      //   state.role = null;
+      //   console.error("JWT decode failed", err);
+      state.user = {
+        token : token,
+        role : decoded.roles?.[0] || null,
+      };
+      }catch(error){
         console.error("JWT decode failed", err);
+        state.user = null;
       }
     }else{
         console.error("Invalid token passed or loginSuccess",token);
     }
     },
     logout: (state) => {
-      state.token = null;
-      state.role = null;
+      // state.token = null;
+      // state.role = null;
       localStorage.removeItem('token');
+      state.user = null;
       
       
     },
