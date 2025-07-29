@@ -1,9 +1,0 @@
-.map-box {
-  height: 200px;
-  width: 100%;
-  max-width: 350px;     /* Optional: control max width */
-  border-radius: 10px;
-  overflow: hidden;
-  border: 1px solid #ccc;
-  z-index: 0;
-}
