@@ -32,6 +32,7 @@ const Register = () => {
     const dto = formData;
 
     try {
+      console.log("Formdata",formData);
       await registerRequest(dto, imageFile)
       alert('Registration Successful')
       navigate('/')

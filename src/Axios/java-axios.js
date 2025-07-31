@@ -1,11 +1,9 @@
 import axios from 'axios';
-
+// http://localhost:8081/api
 const javaAxios = axios.create({
-  baseURL: 'http://localhost:8081/api',
+  baseURL: 'http://192.168.1.14:8081/api',
 
 });
-
-
 
 javaAxios.interceptors.request.use((config) => {
   const isFormData = config.data instanceof FormData;

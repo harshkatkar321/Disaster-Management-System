@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const loginAxios = axios.create({
-  baseURL: 'http://localhost:8081/api',
+  baseURL: 'http://192.168.1.14:8081/api',
 
 });
 

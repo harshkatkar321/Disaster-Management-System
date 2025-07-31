@@ -37,14 +37,18 @@ export const Navbar = () => {
       case 'ADMIN':
         return(
           <>
+
           <li className="nav-item">
               <NavLink className="nav-link" to="/admin/home">Dashboard</NavLink>
             </li>
           <li className="nav-item">
               <NavLink className="nav-link" to="/disaster/list">DisasterList</NavLink>
             </li>
+            {/* <li className="nav-item">
+              <NavLink className="nav-link" to="/alert/create"><strong>Create Alerts</strong></NavLink>
+            </li> */}
             <li className="nav-item">
-              <NavLink className="nav-link" to="/admin/alert/create"><strong>Create Alerts</strong></NavLink>
+              <NavLink className="nav-link" to="/alert/list"><strong>Manage Alerts</strong></NavLink>
             </li>
           </>
         );
@@ -52,7 +56,7 @@ export const Navbar = () => {
         return(
           <>
           <li className="nav-item">
-              <NavLink className="nav-link" to="/admin-dashboard">Dashboard</NavLink>
+              <NavLink className="nav-link" to="/admin/home">Dashboard</NavLink>
             </li>
             <li className="nav-item">
               <NavLink className="nav-link" to="/super-admin/admin/register">Admin Register</NavLink>
@@ -62,6 +66,9 @@ export const Navbar = () => {
         case 'USER':
           return (
             <>
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/user/home">Dashboard</NavLink>
+            </li>
              <li className="nav-item">
               <NavLink className="nav-link" to="/user/profile">Profile</NavLink>
             </li>
@@ -75,10 +82,6 @@ export const Navbar = () => {
     }
 
   };
-
- 
-
-   
 
 
   return (
@@ -101,11 +104,7 @@ export const Navbar = () => {
 
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/home">
-                Home
-              </NavLink>
-            </li>
+            
             {token && renderLinks()}
            {
             <>

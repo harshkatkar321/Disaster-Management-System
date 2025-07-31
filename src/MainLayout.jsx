@@ -13,6 +13,9 @@ import { UpdateUser } from './User/UpdateUser.jsx';
 import { AdminHome } from './Admin/AdminHome.jsx';
 import { AlertCreate } from './Alerts/AlertCreate.jsx';
 import { ListDisaster } from './Disaster/ListDisaster.jsx';
+import { AlertsListComponent } from './Alerts/AlertListComponent.jsx';
+import { AlertUpdate } from './Alerts/UpdateAlertComponent.jsx';
+import { AlertByLocation } from './Alerts/AlertByLocation.jsx';
 
 
 export const MainLayout = () => {
@@ -28,7 +31,10 @@ export const MainLayout = () => {
         <Route path="/super-admin/admin/register" element={<AdminRegister/>} />
         <Route path="/super-admin/admin/register" element={<AdminRegister/>} />
         <Route path="/admin/home" element={<AdminHome/>} />
-        <Route path="/admin/alert/create" element={<AlertCreate/>} />
+        <Route path="/admin/create-alert" element={<AlertCreate/>} />
+        <Route path="/alert/list" element={<AlertsListComponent/>} />
+        <Route path="/alert/update" element={<AlertUpdate/>} />
+        <Route path="/alert/location" element={<AlertByLocation/>} />
         <Route path="/disaster/list" element={<ListDisaster/>} />
         <Route path="/user/home" element={<UserHome />} />
         <Route path="/user/profile" element={<UserProfilePage />} />

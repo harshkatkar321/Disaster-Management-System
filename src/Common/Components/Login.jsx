@@ -49,7 +49,15 @@ export const Login = () => {
       navigate(path, { replace: true });
 
     } catch (error) {
-      console.error('Login error:', error);
+      if (err.response) {
+    console.error('Login failed:', err.response.status, err.response.data);
+  } else if (err.request) {
+    console.error('No response received:', err.request);
+  } else {
+    console.error('Request setup error:', err.message);
+  }
+  alert("Login failed");
+  navigate("/");
     }
   };
 
