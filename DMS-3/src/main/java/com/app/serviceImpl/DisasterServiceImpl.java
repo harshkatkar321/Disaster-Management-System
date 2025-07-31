@@ -1,10 +1,12 @@
 package com.app.serviceImpl;
 
 import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.locationtech.jts.geom.Coordinate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,10 +17,8 @@ import com.app.entity.User;
 import com.app.repository.DisasterRepository;
 import com.app.repository.UserRepository;
 import com.app.service.DisasterService;
-import com.app.service.MyUserService;
 
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.persistence.Lob;
 
 @Service
 public class DisasterServiceImpl implements DisasterService {
@@ -32,9 +32,37 @@ public class DisasterServiceImpl implements DisasterService {
 
 
 	@Override
-	public List<Disaster> getAllDisasters() {
+	public List<DisasterDto> getAllDisasters() {
 		// TODO Auto-generated method stub
-		return disasterRepository.findAll();
+		List<Disaster> disasters=  disasterRepository.findAll();
+		
+		return disasters.stream().map(disaster -> {
+			DisasterDto dto = new DisasterDto(); 
+			dto.setId(disaster.getId());
+			dto.setType(disaster.getType());
+			dto.setLocation(disaster.getLocation());
+			dto.setDescription(disaster.getDescription());
+			dto.setStatus(disaster.getStatus());
+			
+			 if (disaster.getImageData()!= null) {
+		            dto.setImageData(Base64.getEncoder().encodeToString(disaster.getImageData()));
+		            dto.setImageType(disaster.getImageType());
+		        }
+			
+			if(disaster.getMapLocation() != null && disaster.getMapLocation().getCoordinates() !=null) {
+				Coordinate[] coords = disaster.getMapLocation().getCoordinates();
+				if(coords.length >=2) {
+					dto.setLng(coords[0].getX());
+					dto.setLat(coords[1].getY());
+				}
+			}
+			
+			if (disaster.getUser() != null) {
+	            dto.setUser_id(disaster.getUser().getId().toString()); // ✅ this line is key
+	        }
+			
+			return dto;
+		}).toList();
 	}
 
 	@Override
@@ -133,7 +161,7 @@ public class DisasterServiceImpl implements DisasterService {
 	@Override
 	public Disaster addDisaster(DisasterDto dto, MultipartFile imageFile) {
 		
-		User user = userRepository.findByUsername(dto.getUsername()).get();
+		User user = userRepository.findByUsername(dto.getUser_id()).get();
 		
 		Disaster disaster = new Disaster();
 		disaster.setId(UUID.randomUUID().toString());

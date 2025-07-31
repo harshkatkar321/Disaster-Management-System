@@ -1,5 +1,6 @@
 package com.app.dto;
 
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -11,8 +12,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class DisasterDto {
 	
+	private String id;
+	
 	@NotBlank(message = "Disaster type is required")
 	private String type;
+	
+	
 	
 	@NotBlank(message = "Location is required")
 	private String location;
@@ -27,6 +32,11 @@ public class DisasterDto {
 	public double lng;
 	
 	@NotNull(message = "User Id is required")
-	private String username;
+	private String user_id;
+	
+	private String imageData;
+	private String imageName;
+	private String imageType;
+	
 
 }

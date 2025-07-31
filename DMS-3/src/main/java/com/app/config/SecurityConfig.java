@@ -92,7 +92,7 @@ public class SecurityConfig {
 	          .requestMatchers(HttpMethod.GET, "/api/alerts/**").hasAnyRole("USER","ADMIN", "SUPER_ADMIN")
 	          .requestMatchers("/api/alerts/**").hasAnyRole("ADMIN", "SUPER_ADMIN")
 	          .requestMatchers(HttpMethod.PUT, "/api/admin/**").hasAnyRole("ADMIN", "SUPER_ADMIN")
-	          .requestMatchers("/api/admin/**").hasRole("SUPER_ADMIN")
+	          .requestMatchers("/api/admin/**").hasAnyRole("SUPER_ADMIN","ADMIN")
 	          .requestMatchers("/api/super-admin/**").hasRole("SUPER_ADMIN")
 	          .anyRequest().authenticated()
 	      )
@@ -112,7 +112,7 @@ public class SecurityConfig {
 	  @Primary
 	    public CorsConfigurationSource corsConfigurationSource() {
 	        CorsConfiguration config = new CorsConfiguration();
-	        config.setAllowedOrigins(List.of("http://localhost:5173"));
+	        config.setAllowedOrigins(List.of("http://localhost:5173","http://192.168.1.14:5173"));
 	        config.setAllowedMethods(List.of("GET","POST","PUT","OPTIONS","DELETE"));
 	        config.setAllowedHeaders(List.of("*"));
 	        config.setAllowCredentials(true);

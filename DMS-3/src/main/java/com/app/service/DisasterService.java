@@ -9,7 +9,7 @@ import com.app.entity.Disaster;
 
 public interface DisasterService {
 	
-	List<Disaster> getAllDisasters();
+	List<DisasterDto> getAllDisasters();
 	
 	List<Disaster> findByLocation(String location);
 	

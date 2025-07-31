@@ -55,7 +55,7 @@ public class DisasterController {
 	@GetMapping("/disasters")
 	public ResponseEntity<?> getAllDisaters(){
 		try {
-			List<Disaster> allDisasters = disasterService.getAllDisasters();
+			List<DisasterDto> allDisasters = disasterService.getAllDisasters();
 			return new ResponseEntity<>(allDisasters, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NO_CONTENT);

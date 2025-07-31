@@ -78,11 +78,6 @@ public class Disaster {
 	private SuperAdmin superAdmin;
 	
 	
-//	@OneToMany(
-//	        mappedBy = "disaster",
-//	        cascade = CascadeType.ALL,
-//	        orphanRemoval = true
-//	    )
-//	    private List<Alert> alerts = new ArrayList<>();
+
 }
 

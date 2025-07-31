@@ -2,6 +2,7 @@ package com.app.controller;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,7 @@ import com.app.dto.RegisterUserDto;
 import com.app.dto.UpdatUserDto;
 import com.app.entity.Admin;
 import com.app.entity.User;
+import com.app.repository.AdminRepository;
 import com.app.service.AdminService;
 
 import jakarta.validation.Valid;
@@ -32,6 +34,9 @@ public class AdminController {
 	
 	@Autowired
 	private AdminService adminService;
+	
+	@Autowired
+	private AdminRepository adminRepository;
 	
 	@PostMapping("/admin")
 	public ResponseEntity<?> addAdmin(@RequestPart @Valid RegisterUserDto dto, BindingResult br,
@@ -69,6 +74,17 @@ public class AdminController {
 	public ResponseEntity<?> getAdmin(@PathVariable String id) {
 		try {
 			Admin admin = adminService.getAdmin(id);
+			return new ResponseEntity<>(admin, HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO: handle exception
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@GetMapping("/admin/name/{username}")
+	public ResponseEntity<?> getAdminByName(@PathVariable String username) {
+		try {
+			Optional<Admin> admin = adminRepository.findByUsername(username);
 			return new ResponseEntity<>(admin, HttpStatus.OK);
 		} catch (Exception e) {
 			// TODO: handle exception

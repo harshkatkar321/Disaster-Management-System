@@ -16,6 +16,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AlertDto {
+	
+	
     
     @NotBlank(message = "Type is required")
     private String type;
