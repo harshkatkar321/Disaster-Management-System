@@ -44,7 +44,10 @@ export const Navbar = () => {
               <NavLink className="nav-link" to="/disaster/list">DisasterList</NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className="nav-link" to="/admin/alert/create"><strong>Create Alerts</strong></NavLink>
+              <NavLink className="nav-link" to="/alert/create"><strong>Create Alerts</strong></NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/alert/list"><strong>Manage Alerts</strong></NavLink>
             </li>
           </>
         );

@@ -19,7 +19,7 @@ export const CreateDisaster = () => {
         status:'',
         lat:'',
         lng:'',
-        username:username,
+        user_id:username,
       });
 
       const [imageFile, setImageFile] = useState(null);

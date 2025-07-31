@@ -5,8 +5,6 @@ const javaAxios = axios.create({
 
 });
 
-
-
 javaAxios.interceptors.request.use((config) => {
   const isFormData = config.data instanceof FormData;
 
