@@ -11,7 +11,7 @@ export const CreateDisaster = () => {
     const token = localStorage.getItem('token');
     const decoded = jwtDecode(token);
     const username = decoded.sub;
-
+    const [validationErrors, setValidationErrors] = useState({});
     const [formData, setFormData] = useState({
         type:'',
         location:'',
@@ -68,10 +68,26 @@ export const CreateDisaster = () => {
 
     }
      catch (err) {
-      console.error('Disaster registration failed:', err)
-      alert('Disaster Registration failed. Try Again')
-      navigate('/user/home')
-    }
+  console.error('reporting failed:', err);
+
+  if (err.response && err.response.data && Array.isArray(err.response.data.errors)) {
+    const groupedErrors = {};
+
+    err.response.data.errors.forEach(error => {
+      const [field, message] = error.split(":").map(s => s.trim());
+
+      if (field in groupedErrors) {
+        groupedErrors[field] += ` | ${message}`;  // concat if multiple errors for same field
+      } else {
+        groupedErrors[field] = message;
+      }
+    });
+
+    setValidationErrors(groupedErrors);
+  } else {
+    alert("Disaster reporting failed. Please try again.");
+  }
+}
   }
 
 
@@ -95,12 +111,18 @@ export const CreateDisaster = () => {
               accept="image/*"
               className="form-control"
               onChange={handleFileChange}
-              required
+              
             />
           </div>
 
           {/* Location */}
           <div className="mb-4">
+            {validationErrors.location && (
+                <>
+                <small className="text-danger">{validationErrors.location}</small>
+                <br/>
+                </>
+              )}
             <label className="form-label fw-semibold">Location</label>
             <input
               type="text"
@@ -109,12 +131,18 @@ export const CreateDisaster = () => {
               onChange={handleChange}
               className="form-control"
               placeholder="Enter location of the incident"
-              required
+              
             />
           </div>
 
           {/* Disaster Type */}
           <div className="mb-4">
+            {validationErrors.type && (
+                <>
+                <small className="text-danger">{validationErrors.type}</small>
+                <br/>
+                </>
+              )}
             <label className="form-label fw-semibold">Disaster Type</label>
             <input
               type="text"
@@ -123,12 +151,18 @@ export const CreateDisaster = () => {
               onChange={handleChange}
               className="form-control"
               placeholder="e.g., Flood, Earthquake, Fire"
-              required
+              
             />
           </div>
 
           {/* Description */}
           <div className="mb-4">
+            {validationErrors.description && (
+                <>
+                <small className="text-danger">{validationErrors.description}</small>
+                <br/>
+                </>
+              )}
             <label className="form-label fw-semibold">Incident Description</label>
             <textarea
               name="description"
@@ -137,19 +171,25 @@ export const CreateDisaster = () => {
               className="form-control"
               rows="4"
               placeholder="Briefly describe what happened"
-              required
+              
             ></textarea>
           </div>
 
           {/* Status Dropdown */}
           <div className="mb-4">
+            {validationErrors.status && (
+                <>
+                <small className="text-danger">{validationErrors.status}</small>
+                <br/>
+                </>
+              )}
             <label className="form-label fw-semibold">Status</label>
             <select
               className="form-select"
               name='status'
               value={formData.status}
               onChange={handleChange}
-              required
+              
             >
               <option value="">-- Select Status --</option>
               <option value="active">Active</option>

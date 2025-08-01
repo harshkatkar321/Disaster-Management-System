@@ -56,10 +56,12 @@ export const AlertsListComponent = () => {
     try {
       const res = await deleteAlertById(alertId);
       alert("Alert deleted successfully!");
+      navigate(0)
       // Optionally reload the list
     } catch (err) {
       console.error("Delete error:", err);
       alert("Failed to delete alert.");
+      
     }
   }
 };

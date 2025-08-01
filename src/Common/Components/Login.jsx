@@ -10,6 +10,7 @@ export const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [dto, setDto] = useState({ username: '', password: '' });
+  const [validationErrors, setValidationErrors] = useState({});
 
 
   const handleChange = (e) => {
@@ -17,7 +18,7 @@ export const Login = () => {
     setDto((prev) => ({ ...prev, [name]: value }));
   };
 
-  let loginResponse;
+  // let loginResponse;
   let role = "";
 
   const handleSubmit = async (e) => {
@@ -29,15 +30,15 @@ export const Login = () => {
       console.log('Response object:', response);
       console.log('Token only:', response.token);
 
-
+      
       // After successful login:
       localStorage.setItem('token', response.token);
       dispatch(loginSuccess(response.token));
 
       const decoded = jwtDecode(response.token);
-      const roles = decoded.roles;
-      role = roles[0];
-      console.log(role);
+      // const roles = decoded.roles;
+      // role = roles[0];
+      // console.log(role);
 
       const redirectMap = {
         ADMIN: '/admin/home',
@@ -48,58 +49,31 @@ export const Login = () => {
 
       navigate(path, { replace: true });
 
-    } catch (error) {
-      if (err.response) {
-    console.error('Login failed:', err.response.status, err.response.data);
-  } else if (err.request) {
-    console.error('No response received:', err.request);
+    }  catch (err) {
+  console.error('Login failed:', err);
+
+  if (err.response && err.response.data && Array.isArray(err.response.data.errors)) {
+    const groupedErrors = {};
+
+    err.response.data.errors.forEach(error => {
+      const [field, message] = error.split(":").map(s => s.trim());
+
+      if (field in groupedErrors) {
+        groupedErrors[field] += ` | ${message}`;  // concat if multiple errors for same field
+      } else {
+        groupedErrors[field] = message;
+      }
+    });
+
+    setValidationErrors(groupedErrors);
   } else {
-    console.error('Request setup error:', err.message);
+    alert("Login failed. Please try again.");
   }
-  alert("Login failed");
-  navigate("/");
-    }
+}
   };
 
   return (
-    // <div className="container-fluid d-flex justify-content-center align-items-center min-vh-100 p-3 bg-light">
-    //   <div className="card shadow w-100" style={{ maxWidth: '500px' }}>
-    //     <div className="card-body">
-    //       <h3 className="text-center mb-4">Login</h3>
-    //       <form onSubmit={handleSubmit}>
-    //         <div className="mb-3">
-    //           <label>Username</label>
-    //           <input
-    //             type="text"
-    //             name="username"
-    //             className="form-control"
-    //             placeholder="Enter Username"
-    //             value={dto.username}
-    //             onChange={handleChange}
-    //             required
-    //           />
-    //         </div>
-    //         <div className="mb-3">
-    //           <label>Password</label>
-    //           <input
-    //             type="password"
-    //             name="password"
-    //             className="form-control"
-    //             placeholder="Enter Password"
-    //             value={dto.password}
-    //             onChange={handleChange}
-    //             required
-    //           />
-    //         </div>
-    //         <div className="d-grid">
-    //           <button type="submit" className="btn btn-success">
-    //             Login
-    //           </button>
-    //         </div>
-    //       </form>
-    //     </div>
-    //   </div>
-    // </div>
+ 
 
     <>
     <div className="d-flex justify-content-center align-items-center bg-body-tertiary px-3" style={{ minHeight: '88vh' }}>
@@ -110,6 +84,12 @@ export const Login = () => {
           {/* ✅ updated onSubmit handler */}
           <form onSubmit={handleSubmit}>
             <div className="mb-3">
+              {validationErrors.username && (
+                <>
+                <small className="text-danger">{validationErrors.username}</small>
+                <br/>
+                </>
+              )}
               <label htmlFor="email" className="form-label fw-semibold">Email Address</label>
               <div className="input-group">
                 <span className="input-group-text bg-white border-end-0">
@@ -129,6 +109,12 @@ export const Login = () => {
             </div>
 
             <div className="mb-3">
+              {validationErrors.password && (
+                <>
+                <small className="text-danger">{validationErrors.password}</small>
+                <br/>
+                </>
+              )}
               <label htmlFor="password" className="form-label fw-semibold">Password</label>
               <div className="input-group">
                 <span className="input-group-text bg-white border-end-0">

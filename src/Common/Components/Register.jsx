@@ -16,6 +16,8 @@ const Register = () => {
 
   const navigate = useNavigate();
   const [imageFile, setImageFile] = useState(null);
+  const [validationErrors, setValidationErrors] = useState({});
+
 
   const handleFileChange = (e) => {
     setImageFile(e.target.files[0]);
@@ -33,16 +35,34 @@ const Register = () => {
 
     try {
       console.log("Formdata",formData);
-      await registerRequest(dto, imageFile)
+      const response = await registerRequest(dto, imageFile)
+      console.log("Register response ",response);
       alert('Registration Successful')
       navigate('/')
-    } catch (err) {
-      console.error('Registration failed:', err)
-      alert('Registration failed. Try Again')
-    }
+    } 
+    catch (err) {
+  console.error('Registration failed:', err);
+
+  if (err.response && err.response.data && Array.isArray(err.response.data.errors)) {
+    const groupedErrors = {};
+
+    err.response.data.errors.forEach(error => {
+      const [field, message] = error.split(":").map(s => s.trim());
+
+      if (field in groupedErrors) {
+        groupedErrors[field] += ` | ${message}`;  // concat if multiple errors for same field
+      } else {
+        groupedErrors[field] = message;
+      }
+    });
+
+    setValidationErrors(groupedErrors);
+  } else {
+    alert("Registration failed. Please try again.");
   }
+}
 
-
+  }
 
   return (
     <>
@@ -67,6 +87,12 @@ const Register = () => {
           <form onSubmit={handleRegister} >
             {/* First Name */}
             <div className="mb-3">
+              {validationErrors.firstName && (
+                <>
+                <small className="text-danger">{validationErrors.firstName}</small>
+                <br/>
+                </>
+              )}
               <label className="form-label fw-semibold">First Name</label>
               <div className="input-group">
                 <span className="input-group-text bg-white border-end-0">
@@ -86,6 +112,7 @@ const Register = () => {
 
             {/* Last Name */}
             <div className="mb-3">
+              
               <label className="form-label fw-semibold">Last Name</label>
               <div className="input-group">
                 <span className="input-group-text bg-white border-end-0">
@@ -105,6 +132,12 @@ const Register = () => {
 
             {/* Email */}
             <div className="mb-3">
+              {validationErrors.email && (
+                <>
+                <small className="text-danger">{validationErrors.email}</small>
+                <br/>
+                </>
+              )}
               <label className="form-label fw-semibold">Email</label>
               <div className="input-group">
                 <span className="input-group-text bg-white border-end-0">
@@ -124,6 +157,12 @@ const Register = () => {
 
             {/* Password */}
             <div className="mb-3">
+              {validationErrors.password && (
+                <>
+                <small className="text-danger">{validationErrors.password}</small>
+                <br/>
+                </>
+              )}
               <label className="form-label fw-semibold">Password</label>
               <div className="input-group">
                 <span className="input-group-text bg-white border-end-0">
@@ -143,6 +182,10 @@ const Register = () => {
 
             {/* Contact Number */}
             <div className="mb-4">
+              {validationErrors.phoneNumber && (
+                <>
+                  <small className="text-danger">{validationErrors.phoneNumber}</small><br/></>
+                )}
               <label className="form-label fw-semibold">Contact Number</label>
               <div className="input-group">
                 <span className="input-group-text bg-white border-end-0">
@@ -161,6 +204,12 @@ const Register = () => {
             </div>
 
             <div className="mb-3">
+              {validationErrors.city && (
+                <>
+                <small className="text-danger">{validationErrors.city}</small>
+                <br/>
+                </>
+              )}
               <label className="form-label fw-semibold">City</label>
               <div className="input-group">
                 <span className="input-group-text bg-white border-end-0">

@@ -6,6 +6,7 @@ async function CreateAlertService(formData){
      // or wherever you want
     } catch (error) {
       console.error("Error creating alert:", error);
+      throw error;
       
     }
 }
