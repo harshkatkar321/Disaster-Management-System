@@ -1,0 +1,36 @@
+/* .map-box {
+  height: 300px;
+  width: 100%;
+  max-width: 350px;      Optional: control max width 
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid #ccc;
+  z-index: 0;
+} */
+.disaster-card {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  border: 1px solid gray;
+  padding: 10px;
+  margin-bottom: 30px;
+  border-radius: 8px;
+  align-items: flex-start;
+  background-color: #f9f9f9;
+}
+
+.disaster-image img {
+  width: 300px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.disaster-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+
