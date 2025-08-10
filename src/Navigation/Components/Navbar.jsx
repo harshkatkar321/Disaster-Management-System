@@ -53,6 +53,11 @@ export const Navbar = () => {
         </NavLink>
       </li>
       <li className="nav-item">
+        <NavLink className={navLinkClass} to="/user/profile">
+          Profile
+        </NavLink>
+      </li>
+      <li className="nav-item">
         <NavLink className={navLinkClass} to="/user/reportdisaster">
           Report Disaster
         </NavLink>
@@ -71,6 +76,21 @@ export const Navbar = () => {
       <li className="nav-item">
         <NavLink className={navLinkClass} to="/disaster/list">
           Disaster List
+        </NavLink>
+      </li>
+      <li className="nav-item">
+        <NavLink className={navLinkClass} to="/resource/register">
+          Reource Register
+        </NavLink>
+      </li>
+      <li className="nav-item">
+        <NavLink className={navLinkClass} to="/resource/validate">
+          Reource Validation
+        </NavLink>
+      </li>
+      <li className="nav-item">
+        <NavLink className={navLinkClass} to="/admin/create-alert">
+          Create alert
         </NavLink>
       </li>
       <li className="nav-item">

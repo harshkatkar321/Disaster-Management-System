@@ -38,6 +38,8 @@ const Register = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -49,7 +51,11 @@ const Register = () => {
     try {
       await registerRequest(formData, imageFile);
       alert('Registration Successful');
-      navigate('/otp');
+      navigate(`/otp`,{
+    state : {
+      email:formData.email,
+    }
+  });
     } catch (err) {
       if (err.response?.data?.errors) {
         const errors = {};

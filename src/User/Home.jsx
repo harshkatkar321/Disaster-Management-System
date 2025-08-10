@@ -42,7 +42,7 @@ export const UserHome = () => {
             <AlertByLocation/>
       <h2 className="text-xl font-bold mb-4">Alerts for {location}</h2>
 
-      {loading ? (
+      {/* {loading ? (
         <p>Loading alerts...</p>
       ) : alerts.length === 0 ? (
         <p className="text-gray-600 italic">No alerts for your location.</p>
@@ -56,7 +56,30 @@ export const UserHome = () => {
             </li>
           ))}
         </ul>
-      )}
+      )} */}
+
+      {Array.isArray(alerts) && alerts.length > 0 ? (
+  alerts.map((alert) => (
+    <li key={alert.id} className="border p-2 rounded bg-red-100 mb-3">
+      <strong>{alert.title}</strong>
+      <p>{alert.description}</p>
+
+      <p>
+        <strong>Severity:</strong> {alert.severity}<br />
+        <strong>Risk Score:</strong> {alert.riskScore}<br />
+        <strong>Tags:</strong> {alert.tags?.join(", ") || "No tags"}
+      </p>
+
+      <small className="text-xs text-gray-500">
+        Posted: {alert.updatedAt}
+      </small>
+    </li>
+  ))
+) : (
+  <p className="text-gray-500">No alerts available.</p>
+)}
+
+
     </div>
   );
 };

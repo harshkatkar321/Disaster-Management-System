@@ -39,7 +39,8 @@ export const Login = () => {
       const redirectMap = {
         ADMIN: '/admin/home',
         USER: '/user/home',
-        SUPER_ADMIN: '/super-admin/home'
+        SUPER_ADMIN: '/super-admin/home',
+        RESOURCE: '/resource/home'
       };
 
       const path = redirectMap[role] || '/';

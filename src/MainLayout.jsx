@@ -20,6 +20,10 @@ import { ForgotPassword } from './Common/Components/ForgotPassword.jsx';
 // import { ResetPassword } from './Common/Components/ResetPassword.jsx';
 import { AdminProfilePage } from './Admin/AdminProfilePage.jsx';
 import  UserOtpPage from './Common/Components/UserOtpPage.jsx';
+import { RegisterResource } from './Resource/RegisterResource.jsx';
+import { ResourceHome } from './Resource/ResourceHome.jsx';
+import { Toaster } from 'react-hot-toast';
+import { ResourceValidate } from './Resource/ResourceValidate.jsx';
 
 
 export const MainLayout = () => {
@@ -48,8 +52,12 @@ export const MainLayout = () => {
         {/* <Route path="/reset-password" element={<ResetPassword />} /> */}
         <Route path='/admin/profile' element={< AdminProfilePage />} />
         <Route path='/otp' element={ < UserOtpPage />} />
+        <Route path='/resource/register' element={ < RegisterResource />} />
+        <Route path='/resource/home' element={ < ResourceHome />} />
+        <Route path='/resource/validate' element={ < ResourceValidate />} />
 
       </Routes>
+      <Toaster position='top-right' reverseOrder={false} />
       <Footer />
     </>
   );

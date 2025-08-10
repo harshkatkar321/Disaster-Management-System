@@ -10,7 +10,7 @@ export const UpdateUser = () => {
     const [userData, setUserData] = useState({
         city:"",
         phoneNumber:"",
-        password:""
+        
     });
     const [imageFile, setImageFile] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
@@ -32,7 +32,7 @@ export const UpdateUser = () => {
             setUserData({
                 city : data.city || "",
                 phoneNumber : data.phoneNumber || "",
-                password : "",
+                
             });
             if(data.imageData){
                 const base64Img = `data:${data.imageType};base64,${data.imageData}`;
@@ -131,16 +131,16 @@ export const UpdateUser = () => {
                 />
               </Form.Group>
 
-              <Form.Group className="mb-3">
+              {/* <Form.Group className="mb-3">
                 <Form.Label>New Password</Form.Label>
                 <Form.Control
-                  type="password"
+                  type="text"
                   name="password"
                   value={userData.password}
                   onChange={handleChange}
                   required
                 />
-              </Form.Group>
+              </Form.Group> */}
 
               <Button variant="primary" type="submit">
                 Update Profile

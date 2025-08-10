@@ -2,9 +2,13 @@ import React from 'react';
 import { AlertByLocation } from '../Alerts/AlertByLocation';
 import { FaBell, FaShieldAlt, FaMapMarkerAlt, FaUserCog, FaListAlt, FaTasks } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
 
 export const AdminHome = () => {
   const navigate = useNavigate();
+  const token=localStorage.getItem('token');
+  const decoded = jwtDecode(token);
+  console.log(token);
 
   return (
     <div className="container-fluid px-4 py-4">

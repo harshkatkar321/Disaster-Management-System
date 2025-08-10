@@ -10,7 +10,7 @@ export const Home = () => {
           <p className="lead mt-3">Enabling quick response, efficient coordination, and disaster relief.</p>
           <div className="mt-4">
             <a className="btn btn-outline-light btn-lg mx-2" href="/login">Report Disaster</a>
-            <a className="btn btn-outline-warning btn-lg mx-2" href="/register">Join Rescue Network</a>
+            <a className="btn btn-outline-warning btn-lg mx-2" href="/resource/register">Join Rescue Network</a>
           </div>
         </div>
       </section>

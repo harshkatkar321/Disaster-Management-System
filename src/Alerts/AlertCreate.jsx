@@ -3,13 +3,31 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { CreateAlertService } from './services/CreateAlertService';
 import { jwtDecode } from 'jwt-decode';
 import { AdminBYName } from '../Admin/services/AdminByUsername';
+import { ResourceByKind } from '../Resource/services/ResourceByType';
+import toast from 'react-hot-toast';
 
 export const AlertCreate = () => {
     const {disasterId} = useParams();
     const navigate = useNavigate();
 
     const { state } = useLocation();
+    const [resourceKind, setResourceKind] = useState("");
+    const [availableResources, setAvailableResources] = useState([]);
+    const [selectedResources, setSelectedResources] = useState([]);
     const [validationErrors, setValidationErrors] = useState({});
+    const initialFormData = {
+    type: "",
+    location: "",
+    description: "",
+    disasterId: "",
+    userId: "",
+    adminId: "",
+    severity: "",
+    region: "",
+    riskScore: 0,
+    message: "",
+    tags: [],
+};
     const [formData, setFormData] = useState({
         type: "",
         location:  "",
@@ -22,6 +40,7 @@ export const AlertCreate = () => {
         riskScore: 0,
         message: "",
         tags: [],
+        resourceIds:[]
     });
 
     const [tagInput, setTagInput] = useState("");
@@ -33,6 +52,43 @@ export const AlertCreate = () => {
             [name]:value,
         }));
     };
+
+    const handleResourceKindChange = async (e) => {
+  const kind = e.target.value;
+  setResourceKind(kind);
+  
+  try {
+    const response = await  ResourceByKind(kind);
+    console.log(response);
+    setAvailableResources(Array.isArray(response) ? response : []); // assume response.data is a list of resources
+  } catch (error) {
+    console.error("Failed to fetch resources:", error);
+    setAvailableResources([]);
+  }
+};
+
+const handleResourceSelect = (e) => {
+  const selectedId = e.target.value;
+  const selected = availableResources.find(res => res.id === selectedId);
+  
+  if (selected && !selectedResources.some(res => res.id === selected.id)) {
+    setSelectedResources(prev => [...prev, selected]);
+    setFormData(prev => ({
+      ...prev,
+      resourceIds: [...(prev.resourceIds || []), selected.id]
+    }));
+  }
+};
+
+const removeSelectedResource = (id) => {
+  setSelectedResources(prev => prev.filter(res => res.id !== id));
+  setFormData(prev => ({
+    ...prev,
+    resourceIds: prev.resourceIds.filter(rid => rid !== id)
+  }));
+};
+
+
 
     const handleAddTag = () => {
         if(tagInput.trim() !== ""){
@@ -82,11 +138,14 @@ export const AlertCreate = () => {
         try{
             console.log("formdata",formData);
             const response =  await CreateAlertService(formData);
-            setFormData({});
+            setFormData(initialFormData);
             setValidationErrors([]);
             
-            alert("Alert created successfully!");
+            // alert("Alert created successfully!");
+            
+            
             navigate("/admin/home");
+            
         }
         catch (err) {
   console.error('Registration failed:', err);
@@ -122,7 +181,7 @@ export const AlertCreate = () => {
                 <br/>
                 </>
               )}
-        <input type='text' name="type" placeholder="Type" className="form-control mb-2" onChange={handleChange} value={state?.type || null}   />
+        <input type='text' name="type" placeholder="Type" className="form-control mb-2" onChange={handleChange} value={state?.type || ""}   />
 
         {validationErrors.location && (
                 <>
@@ -130,7 +189,7 @@ export const AlertCreate = () => {
                 <br/>
                 </>
               )}
-        <input type='text' name="location" placeholder="Location" className="form-control mb-2" onChange={handleChange} value={state?.location || null}   />
+        <input type='text' name="location" placeholder="Location" className="form-control mb-2" onChange={handleChange} value={state?.location || ""}   />
         
         {validationErrors.description && (
                 <>
@@ -138,7 +197,7 @@ export const AlertCreate = () => {
                 <br/>
                 </>
               )}
-        <textarea type='text' name="description" placeholder="Description" className="form-control mb-2" onChange={handleChange} value={state?.description || null}   />
+        <textarea type='text' name="description" placeholder="Description" className="form-control mb-2" onChange={handleChange} value={state?.description || ""}   />
 
               {validationErrors.severity && (
                 <>
@@ -191,6 +250,42 @@ export const AlertCreate = () => {
         <div className="mb-3">
           <strong>Tags:</strong> {formData.tags.map((tag, i) => <span key={i} className="badge bg-info me-1">{tag}</span>)}
         </div>
+
+        <hr />
+        <h5>Add Resources to Alert</h5>
+
+        <select className="form-control mb-2" onChange={handleResourceKindChange} value={resourceKind}>
+          <option value="">Select Resource Type</option>
+          <option value="PERSONNEL">PERSONNEL</option>
+          <option value="TEAM">TEAM</option>
+          <option value="EQUIPMENT">EQUIPMENT</option>
+          <option value="SUPPLY">SUPPLY</option>
+          <option value="FACILITY">FACILITY</option>
+        </select>
+
+        {(availableResources?.length ?? 0) > 0 && (
+          <select className="form-control mb-2" onChange={handleResourceSelect}>
+            <option value="">Select Resource</option>
+            {availableResources.map(res => (
+              <option key={res.id} value={res.id}>{res.name} - {res.city}</option>
+            ))}
+          </select>
+        )}
+
+        {selectedResources.length > 0 && (
+          <div className="mb-3">
+            <strong>Selected Resources:</strong>
+            <ul className="list-group">
+              {selectedResources.map(res => (
+                <li key={res.id} className="list-group-item d-flex justify-content-between align-items-center">
+                  {res.name} ({res.type})
+                  <button type="button" className="btn btn-sm btn-danger" onClick={() => removeSelectedResource(res.id)}>Remove</button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
 
         <button type="submit" className="btn btn-success">Submit Alert</button>
       </form>

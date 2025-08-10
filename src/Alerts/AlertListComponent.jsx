@@ -46,6 +46,7 @@ export const AlertsListComponent = () => {
     disasterId: alert.disaster.id || null , // ensure consistency
     userId: alert.userId || null,
     tags: alert.tags || [],
+    resources:alert.resources || [],
   }
 });
   };
@@ -73,12 +74,34 @@ export const AlertsListComponent = () => {
           <Card.Body>
             <Card.Title>{alert.type}</Card.Title>
             <Card.Subtitle className="mb-2 text-muted">{alert.region}</Card.Subtitle>
-            <Card.Text>
+            {/* <Card.Text>
               <strong>Message:</strong> {alert.message}<br />
               <strong>Severity:</strong> {alert.severity}<br />
               <strong>Location:</strong> {alert.location}<br />
+              <strong>Tags:</strong> <strong>{alert.tags?.join(", ")||"No tags"}</strong><br />
               <strong>Risk Score:</strong> {alert.riskScore}
-            </Card.Text>
+            </Card.Text> */}
+
+            <Card.Text>
+  <strong>Message:</strong> {alert.message}<br />
+  <strong>Severity:</strong> {alert.severity}<br />
+  <strong>Location:</strong> {alert.location}<br />
+  <strong>Tags:</strong> {alert.tags?.join(", ") || "No tags"}<br />
+  <strong>Risk Score:</strong> {alert.riskScore}<br />
+
+  <strong>Resources:</strong>{" "}
+  {alert.resources && alert.resources.length > 0 ? (
+    alert.resources.map((res, idx) => (
+      <span key={idx}>
+        {res.name} ({res.role})
+        {idx < alert.resources.length - 1 && ", "}
+      </span>
+    ))
+  ) : (
+    "No resources assigned"
+  )}
+</Card.Text>
+
             <div className="d-flex justify-content-between">
               <Button variant="warning" onClick={() => handleUpdate(alert)}>Update</Button>
               <Button variant="danger" onClick={() => handleDelete(alert.id)}>Delete</Button>

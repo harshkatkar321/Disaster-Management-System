@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 import { ReportDisaster } from './services/DisasterService';
+import toast from 'react-hot-toast';
 
 export const CreateDisaster = () => {
     const dispath = useDispatch();
@@ -16,7 +17,6 @@ export const CreateDisaster = () => {
         type:'',
         location:'',
         description:'',
-        status:'',
         lat:'',
         lng:'',
         user_id:username,
@@ -63,7 +63,8 @@ export const CreateDisaster = () => {
       console.log(dto);
         await ReportDisaster(dto,imageFile)
         // updatedFormData();
-        alert("Disaster reported successfully");
+        // alert("Disaster reported successfully");
+        toast.success("Disaster reported successfully");
         navigate('/user/home');
 
     }
@@ -175,27 +176,7 @@ export const CreateDisaster = () => {
             ></textarea>
           </div>
 
-          {/* Status Dropdown */}
-          <div className="mb-4">
-            {validationErrors.status && (
-                <>
-                <small className="text-danger">{validationErrors.status}</small>
-                <br/>
-                </>
-              )}
-            <label className="form-label fw-semibold">Status</label>
-            <select
-              className="form-select"
-              name='status'
-              value={formData.status}
-              onChange={handleChange}
-              
-            >
-              <option value="">-- Select Status --</option>
-              <option value="active">Active</option>
-              <option value="not active">Not Active</option>
-            </select>
-          </div>
+        
 
 
           {/* Submit Button */}

@@ -1,17 +1,46 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import { sendResetEmail } from '../../Alerts/services/ForgotPasswordService';
-import { ResetPassword } from './ResetPassword'; // ✅ import the component
+import { ChangePassword, ForgotPasswordWithOtp } from '../services/LoginService';
+
 
 export const ForgotPassword = () => {
-  const [email, setEmail] = useState('');
+  const navigate = useNavigate();
+
+  // ✅ Single form state
+  const [formData, setFormData] = useState({
+    email: '',
+  });
+  const [otp,setOtp] = useState({
+    email:'',
+    otp:'',
+    newPassword:''
+  })
+
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [showOtpInput, setShowOtpInput] = useState(false);
-  const [otp, setOtp] = useState('');
-  const [otpVerified, setOtpVerified] = useState(false); // ✅ controls whether ResetPassword is shown
+  const [otpVerified, setOtpVerified] = useState(false);
 
-  const navigate = useNavigate();
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value,
+    }),
+  ),
+  setOtp(prev => ({
+      ...prev,
+      [name]: value,
+    }))
+  };
+
+   const handleOtpChange = (e) => {
+    const { name, value } = e.target;
+    setOtp(prev => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,12 +48,9 @@ export const ForgotPassword = () => {
     setError('');
 
     try {
-      // MOCK backend response
-      const res = { message: `Mock: OTP sent to ${email}` };
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      // const res = await sendResetEmail(email);
-
-      setMessage(res.message || 'If this email is registered, a reset link has been sent.');
+ 
+      const res = await ForgotPasswordWithOtp(formData); 
+      
       alert('✅ OTP has been sent to your email.');
       setShowOtpInput(true);
     } catch (err) {
@@ -32,16 +58,18 @@ export const ForgotPassword = () => {
     }
   };
 
-  const handleOtpSubmit = (e) => {
+  const handleOtpSubmit = async (e) => {
     e.preventDefault();
-
-    // Normally validate with backend, here we mock it:
-    if (otp.trim() !== '') {
-      alert('✅ OTP verified.');
-      setOtpVerified(true); // ✅ show the password reset form
-    } else {
-      alert('Please enter the OTP');
+    try{
+      console.log(otp);
+      console.log(formData);
+      await ChangePassword(otp);
+      alert("Password changed successfully");
     }
+    catch(err){
+      alert("Password change failed");
+    }
+    
   };
 
   return (
@@ -51,33 +79,49 @@ export const ForgotPassword = () => {
       {message && <div className="alert alert-success">{message}</div>}
       {error && <div className="alert alert-danger">{error}</div>}
 
-      <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <label>Email Address</label>
-          <input
-            type="email"
-            className="form-control"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
+      {/* Email Form */}
+      {!showOtpInput && (
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label>Email Address</label>
+            <input
+              type="email"
+              className="form-control"
+              name="email"
+              required
+              value={formData.email}
+              onChange={handleChange}
+            />
+          </div>
 
-        <button type="submit" className="btn btn-primary w-100">
-          Send Reset Link
-        </button>
-      </form>
+          <button type="submit" className="btn btn-primary w-100">
+            Send OTP
+          </button>
+        </form>
+      )}
 
+      {/* OTP Form */}
       {showOtpInput && !otpVerified && (
         <form onSubmit={handleOtpSubmit} className="mt-4">
           <label htmlFor="otp" className="form-label">Enter OTP</label>
           <input
             type="text"
             id="otp"
+            name="otp"
             className="form-control"
             placeholder="Enter OTP"
-            value={otp}
-            onChange={(e) => setOtp(e.target.value)}
+            value={otp.otp}
+            onChange={handleOtpChange}
+          />
+          <label htmlFor="otp" className="form-label">Enter New Password</label>
+          <input
+            type="text"
+            id="newPassword"
+            name="newPassword"
+            className="form-control"
+            placeholder="Enter New Password"
+            value={otp.newPassword}
+            onChange={handleOtpChange}
           />
           <button type="submit" className="btn btn-success w-100 mt-3">
             Submit OTP
@@ -85,11 +129,7 @@ export const ForgotPassword = () => {
         </form>
       )}
 
-      {otpVerified && (
-        <div className="mt-5">
-          <ResetPassword inline={true} />
-        </div>
-      )}
+      
     </div>
   );
 };

@@ -26,7 +26,7 @@ async function registerRequest(dto, imageFile) {
   try {
     const response = await loginAxios.post('/v1/register', formData, {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        'Content-Type': 'multipart/form-rdata',
       },
     });
     return response.data;
@@ -36,12 +36,10 @@ async function registerRequest(dto, imageFile) {
   }
 }
 
-async function verifyOtpRequest(email, otp) {
+async function verifyOtpRequest(dto) {
+
   try {
-    const response = await loginAxios.post('/v1/verify-otp', {
-      email,
-      otp,
-    });
+    const response = await loginAxios.post('/v1/verifyaccount',dto);
     return response.data;
   } catch (err) {
     console.error('OTP verification failed:', err);
@@ -49,4 +47,39 @@ async function verifyOtpRequest(email, otp) {
   }
 }
 
-export { loginRequest, registerRequest, verifyOtpRequest };
+async function RegenerateOtpRequest(formData) {
+  try {
+    const response = await loginAxios.post('/v1/regenerateotp', {
+      formData
+    });
+    return response.data;
+  } catch (err) {
+    console.error('OTP regeneration failed:', err);
+    throw err;
+  }
+}
+
+
+async function ForgotPasswordWithOtp(dto){
+  try {
+    const response = await loginAxios.post('/v1/forgotpasswordotp',dto);
+    return response.data;
+  } catch (err) {
+    console.error('OTP verification failed:', err);
+    throw err;
+  }
+
+}
+
+async function ChangePassword(dto){
+  try {
+    const response = await loginAxios.post('/v1/setNewPassword',dto);
+    return response.data;
+  } catch (err) {
+    console.error('OTP verification failed:', err);
+    throw err;
+  }
+
+}
+
+export { loginRequest, registerRequest, verifyOtpRequest,RegenerateOtpRequest, ForgotPasswordWithOtp,ChangePassword };
