@@ -98,7 +98,7 @@ export const ListDisaster = () => {
             <td>{disaster.type}</td>
             <td>{disaster.location}</td>
             <td>{disaster.description}</td>
-            <td>{disaster.status}</td>
+            
             <td>
               <img
                 src={convertToImageSrc(disaster.imageData, disaster.imageType)}

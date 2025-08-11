@@ -11,28 +11,54 @@ async function loginRequest(loginDto) {
   }
 }
 
+// async function registerRequest(dto, imageFile) {
+//   const formData = new FormData();
+
+//   const jsonBlob = new Blob([JSON.stringify(dto)], {
+//     type: 'application/json',
+//   });
+//   formData.append('dto', jsonBlob);
+
+//   if (imageFile) {
+//     formData.append('imageFile', imageFile);
+//   }
+
+//   try {
+//     const response = await loginAxios.post('/v1/register', formData, {
+//       headers: {
+//         'Content-Type': 'multipart/form-rdata',
+//       },
+//     });
+//     return response.data;
+//   } catch (err) {
+//     console.error('Failed to register user:', err);
+//     throw err;
+//   }
+// }
+
 async function registerRequest(dto, imageFile) {
   const formData = new FormData();
-
-  const jsonBlob = new Blob([JSON.stringify(dto)], {
-    type: 'application/json',
-  });
+  const jsonBlob = new Blob([JSON.stringify(dto)], { type: 'application/json' });
   formData.append('dto', jsonBlob);
 
-  if (imageFile) {
-    formData.append('imageFile', imageFile);
-  }
+  if (imageFile) formData.append('imageFile', imageFile);
 
   try {
     const response = await loginAxios.post('/v1/register', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-rdata',
-      },
+      headers: { 'Content-Type': 'multipart/form-data' }
     });
     return response.data;
   } catch (err) {
-    console.error('Failed to register user:', err);
-    throw err;
+    const resp = err.response;
+    if (resp && resp.data && Array.isArray(resp.data.errors)) {
+      // Extract validation errors and throw
+      const messages = resp.data.errors.map(e => e.message || JSON.stringify(e));
+      throw new Error(`Validation failed: ${messages.join(', ')}`);
+    }
+    if (resp && resp.status) {
+      throw new Error(`Server responded with status ${resp.status}`);
+    }
+    throw err; // network or other unexpected error
   }
 }
 

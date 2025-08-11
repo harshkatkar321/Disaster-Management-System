@@ -3,6 +3,7 @@ import { registerRequest } from '../services/LoginService';
 import { useNavigate, Link } from 'react-router-dom';
 import { Navbar } from '../../Navigation/Components/Navbar';
 import { Footer } from '../../Navigation/Components/Footer';
+import toast from 'react-hot-toast';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -44,29 +45,60 @@ const Register = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleRegister = async (e) => {
+  // const handleRegister = async (e) => {
+  //   e.preventDefault();
+  //   setValidationErrors({});
+
+  //   try {
+  //     await registerRequest(formData, imageFile);
+  //     alert('Registration Successful');
+  //     navigate(`/otp`,{
+  //   state : {
+  //     email:formData.email,
+  //   }
+  // });
+  //   } catch (err) {
+  //     if (err.response?.data?.errors) {
+  //       const errors = {};
+  //       err.response.data.errors.forEach((error) => {
+  //         const [field, message] = error.split(':').map((s) => s.trim());
+  //         errors[field] = message;
+  //       });
+  //       setValidationErrors(errors);
+  //     } else {
+  //       alert('Registration failed. Please try again.');
+  //     }
+  //   }
+  // };
+
+  const handleRegister = async e => {
     e.preventDefault();
-    setValidationErrors({});
+    const dto = formData;
 
     try {
-      await registerRequest(formData, imageFile);
-      alert('Registration Successful');
-      navigate(`/otp`,{
+      await registerRequest(dto, imageFile);
+      toast.success("Registration Successfull");
+      // alert('Registration Successful');
+      // navigate('/');
+      setTimeout(() => {
+         navigate(`/otp`,{
     state : {
       email:formData.email,
     }
   });
+      }, 1500);
     } catch (err) {
-      if (err.response?.data?.errors) {
-        const errors = {};
-        err.response.data.errors.forEach((error) => {
-          const [field, message] = error.split(':').map((s) => s.trim());
-          errors[field] = message;
-        });
-        setValidationErrors(errors);
-      } else {
-        alert('Registration failed. Please try again.');
+      if (err.message == "Server responded with status 400") {
+        toast.error(`Registration failed: Email is already Registered`);
+        console.error('Registration failed:', err);
       }
+      else {
+        console.error('Registration failed:', err);
+        const message = err.message || 'Unknown error';
+        toast.error(`Registration failed: ${message}`);
+      }
+
+      // alert(Registration failed: ${message});
     }
   };
 
