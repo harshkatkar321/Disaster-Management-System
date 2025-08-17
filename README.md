@@ -1,4 +1,11 @@
+Perfect! Here's your **updated project synopsis** with the following changes:
 
+✅ Removed any active Twilio/SMS functionality
+✅ Added a clear note about **SMS service keys** needing to be set manually
+✅ Provided **official links** for obtaining Twilio credentials
+✅ Clean formatting and ready to paste into your `README.md` file
+
+---
 
 # 🌪️ Disaster Management System (DMS)
 
@@ -24,11 +31,10 @@ We developed a full-stack **Disaster Management System** that:
 
 * Allows **administrators** to register and monitor disasters in real time
 * Enables **volunteers** and relief organizations to register available resources (shelter, food, medical aid)
-* Sends **email alerts** to affected citizens via SMTP-based notification system
+* Sends **email alerts** to affected citizens via an SMTP-based notification system
 * Displays an **interactive map** for disaster zones and available relief centers
 * Implements **role-based access control** for Admin, Volunteer, and Citizen users
 * Maintains detailed logs and disaster data through a persistent, secure backend
-
 
 ## 🛠️ Technologies Used
 
@@ -42,7 +48,6 @@ We developed a full-stack **Disaster Management System** that:
 | 📦 Build Tool    | Maven                                     |
 | 🌐 API           | RESTful APIs                              |
 
----
 
 ## 🌱 Key Spring Features Implemented
 
@@ -55,7 +60,6 @@ We developed a full-stack **Disaster Management System** that:
 | **Spring Validation**      | Bean and form-level validations                |
 | **JavaMailSender (SMTP)**  | Email alert system for registered citizens     |
 | **application.properties** | Environment-based configurations               |
-
 
 
 ## ⚙️ System Modules
@@ -85,18 +89,30 @@ We developed a full-stack **Disaster Management System** that:
 * Displays disaster-affected zones and nearby shelters
 * LeafletJS integration with backend location data
 
----
+
+## 🔐 Note on Secret Keys
+
+This project **previously included SMS alert integration using Twilio**, which has been removed due to security policies and repository protection rules.
+
+If you wish to re-enable SMS features:
+
+* You must **configure your own Twilio credentials** in `application.properties` or through environment variables.
+* Visit the official Twilio Console to generate your keys:
+
+👉 [Get Twilio Account SID and Auth Token](https://www.twilio.com/console)
+👉 [Twilio SMS API Docs](https://www.twilio.com/docs/sms/send-messages)
+
+⚠️ **Never commit your credentials directly into the codebase**. Use `.env` files or externalized config and add them to `.gitignore`.
+
 
 ## 🚀 How We Handled the Challenge
 
 * Structured the project into **modular layers**: `Controller`, `Service`, `Repository`, and `Entity`
 * Implemented **centralized error handling** using `@ControllerAdvice`
 * Used **Spring Security** for managing user roles and protected endpoints
-* Managed sensitive credentials via `application.properties` and external configuration
+* Managed sensitive credentials via `application.properties` and environment variables
 * Designed RESTful APIs for seamless frontend-backend integration
 * Integrated SMTP service using `JavaMailSender` for scalable and automated communication
-
----
 
 ## 📌 Future Enhancements
 
@@ -106,15 +122,13 @@ We developed a full-stack **Disaster Management System** that:
 * Multilingual support for regional users
 * Analytics dashboard for disaster impact and response tracking
 
----
 
 ## 🤝 Team Credits
 
-* Harsh Katkar – Front-end Developer* [Team Lead]
-* Balaji Pawar – Backend Developer*
-* Pratik Kamthe – UI/UX designer*
-* Viraj Bhosle – Frontend Developer*
- 
+* **Harsh Katkar** – Front-end Developer *(Team Lead)*
+* **Balaji Pawar** – Backend Developer
+* **Pratik Kamthe** – UI/UX Designer
+* **Viraj Bhosle** – Frontend Developer
 
 
 ## 🧾 How to Run the Project
@@ -124,8 +138,11 @@ git clone https://github.com/harshkatkar321/Disaster-Management-System.git
 
 # Import as Maven Project in Spring Tool Suite (STS)
 
-# Update DB and email SMTP configs in src/main/resources/application.properties
+# Update database and SMTP email configurations in:
+src/main/resources/application.properties
 
 # Run the app
 mvn spring-boot:run
 
+
+Let me know if you’d like this saved as a `README.md` file — I can generate it for you instantly.
