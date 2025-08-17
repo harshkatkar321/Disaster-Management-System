@@ -1,11 +1,4 @@
-Perfect! Here's your **updated project synopsis** with the following changes:
 
-✅ Removed any active Twilio/SMS functionality
-✅ Added a clear note about **SMS service keys** needing to be set manually
-✅ Provided **official links** for obtaining Twilio credentials
-✅ Clean formatting and ready to paste into your `README.md` file
-
----
 
 # 🌪️ Disaster Management System (DMS)
 
@@ -145,4 +138,3 @@ src/main/resources/application.properties
 mvn spring-boot:run
 
 
-Let me know if you’d like this saved as a `README.md` file — I can generate it for you instantly.
